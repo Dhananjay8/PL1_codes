@@ -1,0 +1,72 @@
+mysql> select repid,name,phone from Salesreps left join Offices on Offices.officeid=Salesreps.officeid;
++-------+-------+---------+
+| repid | name  | phone   |
++-------+-------+---------+
+|     1 | Munna | 2454377 |
+|     2 | Niru  | 2454377 |
+|     3 | dsp   | 2454306 |
+|     4 | alex  | 2454300 |
++-------+-------+---------+
+4 rows in set (0.00 sec)
+
+
+mysql> select * from Customers where credit_limit>50000 or custid in (select custid from Orders where amt>50000);
++--------+---------+-------+--------------+
+| custid | company | repid | credit_limit |
++--------+---------+-------+--------------+
+|      1 | HP      |     2 |       700000 |
+|      2 | Lenovo  |     1 |       900000 |
+|      3 | Dell    |     4 |      1000000 |
+|      4 | HP      |     3 |      1000000 |
+|      5 | Apple   |     4 |      2000000 |
+|      6 | Godrej  |     1 |        75000 |
++--------+---------+-------+--------------+
+6 rows in set (0.08 sec)
+
+
+mysql> select productname from Orders where qty is null;                            
++----------------+
+| productname    |
++----------------+
+| WashingMachine |
++----------------+
+1 row in set (0.00 sec)
+
+
+mysql> select o.productname,o.amt,s.name,c.company from Orders as o,Customers as c,Salesreps as s where o.custid=c.custid and c.repid=s.repid and o.amt>25000;
++-------------+--------+-------+---------+
+| productname | amt    | name  | company |
++-------------+--------+-------+---------+
+| notebook    |  80000 | Niru  | HP      |
+| envy        | 100000 | Niru  | HP      |
+| yoga        | 120000 | Munna | Lenovo  |
+| inspiron    | 220000 | alex  | Dell    |
+| pavellion   | 520000 | dsp   | HP      |
++-------------+--------+-------+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select company,credit_limit,quota from Customers inner join Salesreps on Customers.credit_limit>Salesreps.quota and Customers.repid=Salesreps.repid;
++---------+--------------+--------+
+| company | credit_limit | quota  |
++---------+--------------+--------+
+| HP      |       700000 | 100000 |
+| Lenovo  |       900000 |  50000 |
+| Dell    |      1000000 | 750000 |
+| HP      |      1000000 | 800000 |
+| Apple   |      2000000 | 750000 |
+| Godrej  |        75000 |  50000 |
++---------+--------------+--------+
+6 rows in set (0.03 sec)
+
+
+mysql> select avg(Salesreps.sales) from Customers right join Salesreps on Customers.repid=Salesreps.repid;
++----------------------+
+| avg(Salesreps.sales) |
++----------------------+
+|            7166.6667 |
++----------------------+
+1 row in set (0.00 sec)
+
+
+

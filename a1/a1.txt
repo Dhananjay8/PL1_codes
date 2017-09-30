@@ -1,0 +1,390 @@
+ CREATE TABLE hotel ( 
+  hotelno int(11) NOT NULL, 
+  hotelname varchar(15) NOT NULL, 
+  city varchar(15) NOT NULL, 
+  PRIMARY KEY (hotelno) 
+) ;
+
+
+
+ CREATE TABLE room ( 
+  roomno int(11) NOT NULL, 
+  hotelno int(11) NOT NULL, 
+  roomtype varchar(10) NOT NULL, 
+  price int(11) NOT NULL, 
+  PRIMARY KEY (roomno,hotelno), 
+  KEY hotelno (hotelno), 
+  FOREIGN KEY (hotelno) REFERENCES hotel (hotelno) ON DELETE CASCADE ON UPDATE CASCADE 
+);
+
+
+CREATE TABLE guest ( 
+  guestno int(11) NOT NULL, 
+  guestfname varchar(10) NOT NULL, 
+  guestsname varchar(10) NOT NULL, 
+  guesttype varchar(10) NOT NULL, 
+  guestaddress varchar(20) NOT NULL, 
+  PRIMARY KEY (guestno) 
+);
+
+ CREATE TABLE booking ( 
+  hotelno int(11) NOT NULL, 
+  guestno int(11) NOT NULL, 
+  datefrom date NOT NULL, 
+  dateto date NOT NULL, 
+  roomno int(11) NOT NULL, 
+  KEY hotelno (hotelno), 
+  KEY guestno (guestno), 
+  KEY roomno (roomno), 
+ FOREIGN KEY (hotelno) REFERENCES hotel (hotelno) ON DELETE CASCADE ON UPDATE CASCADE, 
+FOREIGN KEY (guestno) REFERENCES guest (guestno) ON DELETE CASCADE ON UPDATE CASCADE, 
+ FOREIGN KEY (roomno) REFERENCES room (roomno) ON DELETE CASCADE ON UPDATE CASCADE 
+);
+
+
+
+
+
+select * from hotel; 
++---------+------------+--------+ 
+| hotelno | hotelname  | city   | 
++---------+------------+--------+ 
+|       1 | orchid     | pune   | 
+|       2 | marriot    | pune   | 
+|       3 | Lemeridian | pune   | 
+|       4 | grand      | mumbai | 
++---------+------------+--------+ 
+
+select * from room; 
++--------+---------+----------+-------+ 
+| roomno | hotelno | roomtype | price | 
++--------+---------+----------+-------+ 
+|      1 |       1 | AC       |  3800 | 
+|      1 |       2 | NON-AC   |  4750 | 
+|      1 |       3 | AC       |  6650 | 
+|      1 |       4 | AC       |  1900 | 
+|      2 |       1 | NON-AC   |  2850 | 
+|      2 |       2 | AC       |  8550 | 
+|      2 |       3 | NON-AC   |  4750 | 
+|      2 |       4 | NON-AC   |   950 | 
++--------+---------+----------+-------+ 
+
+ select * from guest; 
++---------+------------+------------+-----------+--------------+ 
+| guestno | guestfname | guestsname | guesttype | guestaddress | 
++---------+------------+------------+-----------+--------------+ 
+|       1 | rohan      | poulose    | male      | pune         | 
+|       2 | arya       | patil      | female    | pune         | 
+|       3 | dhananjay  | patil      | female    | goa          | 
+|       4 | mike       | ross       | male      | goa          | 
+|       5 | harvey     | specter    | male      | new york     | 
++---------+------------+------------+-----------+--------------+ 
+
+ select * from booking; 
++---------+---------+------------+------------+--------+ 
+| hotelno | guestno | datefrom   | dateto     | roomno | 
++---------+---------+------------+------------+--------+ 
+|       2 |       4 | 2016-06-24 | 2016-06-30 |      1 | 
+|       1 |       1 | 2016-06-22 | 2016-06-26 |      2 | 
+|       2 |       1 | 2016-06-22 | 2016-06-26 |      2 | 
+|       2 |       4 | 2016-06-29 | 2016-07-02 |      2 | 
+|       1 |       2 | 2016-06-29 | 2016-07-02 |      1 | 
++---------+---------+------------+------------+--------+ 
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+MariaDB [te3152db]> create table Orders( orderno int not null, custid int not null, productname char not null, qty int not null, amt int not null, discount int not null, primary key(orderno));
+Query OK, 0 rows affected (0.06 sec)
+
+MariaDB [te3152db]> create table Customers( custid int not null, company char not null, repid int not null, credit_limit int not null, primary key(custid));
+Query OK, 0 rows affected (0.07 sec)
+
+MariaDB [te3152db]> create table Salesresps( repid int not null, name char not null, officeid int not null, quota int not null,sales int not null, primary key(repid));
+Query OK, 0 rows affected (0.07 sec)
+
+MariaDB [te3152db]> show tables;
++--------------------+
+| Tables_in_te3152db |
++--------------------+
+| Customers          |
+| Orders             |
+| Salesresps         |
+| mytable            |
+| mytablenew         |
++--------------------+
+5 rows in set (0.00 sec)
+
+MariaDB [te3152db]> create table Offices( officeid int not null, city char not null, state char not null,region char not null,target int not null,sales int not null,phone int not null, primary key(officeid));
+Query OK, 0 rows affected (0.05 sec)
+
+MariaDB [te3152db]> DESC Orders
+    -> ;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| orderno     | int(11) | NO   | PRI | NULL    |       |
+| custid      | int(11) | NO   |     | NULL    |       |
+| productname | char(1) | NO   |     | NULL    |       |
+| qty         | int(11) | NO   |     | NULL    |       |
+| amt         | int(11) | NO   |     | NULL    |       |
+| discount    | int(11) | NO   |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+MariaDB [te3152db]> DESC Customers;
++--------------+---------+------+-----+---------+-------+
+| Field        | Type    | Null | Key | Default | Extra |
++--------------+---------+------+-----+---------+-------+
+| custid       | int(11) | NO   | PRI | NULL    |       |
+| company      | char(1) | NO   |     | NULL    |       |
+| repid        | int(11) | NO   |     | NULL    |       |
+| credit_limit | int(11) | NO   |     | NULL    |       |
++--------------+---------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+MariaDB [te3152db]> DESC Salesresps;
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| repid    | int(11) | NO   | PRI | NULL    |       |
+| name     | char(1) | NO   |     | NULL    |       |
+| officeid | int(11) | NO   |     | NULL    |       |
+| quota    | int(11) | NO   |     | NULL    |       |
+| sales    | int(11) | NO   |     | NULL    |       |
++----------+---------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [te3152db]> DESC Offices;
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| officeid | int(11) | NO   | PRI | NULL    |       |
+| city     | char(1) | NO   |     | NULL    |       |
+| state    | char(1) | NO   |     | NULL    |       |
+| region   | char(1) | NO   |     | NULL    |       |
+| target   | int(11) | NO   |     | NULL    |       |
+| sales    | int(11) | NO   |     | NULL    |       |
+| phone    | int(11) | NO   |     | NULL    |       |
++----------+---------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+MariaDB [te3152db]> alter table Orders add foreign key(custid) references Customers(custid);
+Query OK, 0 rows affected (0.08 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> DESC Orders;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| orderno     | int(11) | NO   | PRI | NULL    |       |
+| custid      | int(11) | NO   | MUL | NULL    |       |
+| productname | char(1) | NO   |     | NULL    |       |
+| qty         | int(11) | NO   |     | NULL    |       |
+| amt         | int(11) | NO   |     | NULL    |       |
+| discount    | int(11) | NO   |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+MariaDB [te3152db]> alter table Customers add foreign key(repid) references Salesresps(repid);
+Query OK, 0 rows affected (0.08 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> alter table Salesresps add foreign key(officeid) references Offices(officeid);
+Query OK, 0 rows affected (0.08 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> DESC Offices;
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| officeid | int(11) | NO   | PRI | NULL    |       |
+| city     | char(1) | NO   |     | NULL    |       |
+| state    | char(1) | NO   |     | NULL    |       |
+| region   | char(1) | NO   |     | NULL    |       |
+| target   | int(11) | NO   |     | NULL    |       |
+| sales    | int(11) | NO   |     | NULL    |       |
+| phone    | int(11) | NO   |     | NULL    |       |
++----------+---------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+MariaDB [te3152db]> desc Offices;
++----------+---------+------+-----+---------+-------+
+| Field    | Type    | Null | Key | Default | Extra |
++----------+---------+------+-----+---------+-------+
+| officeid | int(11) | NO   | PRI | NULL    |       |
+| city     | char(1) | NO   |     | NULL    |       |
+| state    | char(1) | NO   |     | NULL    |       |
+| region   | char(1) | NO   |     | NULL    |       |
+| target   | int(11) | NO   |     | NULL    |       |
+| sales    | int(11) | NO   |     | NULL    |       |
+| phone    | int(11) | NO   |     | NULL    |       |
++----------+---------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+MariaDB [te3152db]> select * from Offices;
++----------+------+-------+--------+--------+-------+---------+
+| officeid | city | state | region | target | sales | phone   |
++----------+------+-------+--------+--------+-------+---------+
+|      401 | P    | M     | W      |    500 |  7000 | 2454306 |
++----------+------+-------+--------+--------+-------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [te3152db]> ALTER TABLE Offices MODIFY city VARCHAR(120);
+Query OK, 1 row affected (0.07 sec)                
+Records: 1  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> ALTER TABLE Offices MODIFY state VARCHAR(120);
+Query OK, 1 row affected (0.09 sec)                
+Records: 1  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> ALTER TABLE Offices MODIFY region VARCHAR(120);
+Query OK, 1 row affected (0.09 sec)                
+Records: 1  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> ALTER TABLE Customers MODIFY company VARCHAR(120);
+Query OK, 0 rows affected (0.09 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> ALTER TABLE Orders MODIFY productname VARCHAR(120);
+Query OK, 0 rows affected (0.08 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> ALTER TABLE Salesresps MODIFY name VARCHAR(120);
+Query OK, 0 rows affected (0.09 sec)               
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [te3152db]> insert into Offices values("402","Nashik","Maharashtra","West","400","8000","2454345");
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [te3152db]> insert into Offices values("403","XYZ","Kerala","South","700","1000","2454347");
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [te3152db]> show tables;
++--------------------+
+| Tables_in_te3152db |
++--------------------+
+| Customers          |
+| Offices            |
+| Orders             |
+| Salesresps         |
+| mytable            |
+| mytablenew         |
++--------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [te3152db]> select * from Orders;
++---------+--------+-------------+-----+-----+----------+
+| orderno | custid | productname | qty | amt | discount |
++---------+--------+-------------+-----+-----+----------+
+|     101 |    201 | Order1      | 800 | 600 |       40 |
+|     102 |    202 | Order2      | 500 | 450 |       30 |
+|     103 |    202 | Order3      | 700 | 650 |       20 |
++---------+--------+-------------+-----+-----+----------+
+3 rows in set (0.00 sec)
+
+MariaDB [te3152db]> select * from Customers;
++--------+-----------+-------+--------------+
+| custid | company   | repid | credit_limit |
++--------+-----------+-------+--------------+
+|    201 | Apple     |  8001 |         5000 |
+|    202 | Microsoft |  8002 |         6500 |
++--------+-----------+-------+--------------+
+2 rows in set (0.00 sec)
+
+MariaDB [te3152db]> select * from Salesresps;
++-------+------+----------+-------+-------+
+| repid | name | officeid | quota | sales |
++-------+------+----------+-------+-------+
+|  8001 | ABC  |      401 |  5000 |   100 |
+|  8002 | XYZ  |      402 |  5055 |   450 |
++-------+------+----------+-------+-------+
+2 rows in set (0.01 sec)
+
+MariaDB [te3152db]> select * from Offices;
++----------+--------+-------------+--------+--------+-------+---------+
+| officeid | city   | state       | region | target | sales | phone   |
++----------+--------+-------------+--------+--------+-------+---------+
+|      401 | P      | M           | W      |    500 |  7000 | 2454306 |
+|      402 | Nashik | Maharashtra | West   |    400 |  8000 | 2454345 |
+|      403 | XYZ    | Kerala      | South  |    700 |  1000 | 2454347 |
+|      404 | ASD    | Karnataka   | South  |    750 |  1450 | 2784347 |
++----------+--------+-------------+--------+--------+-------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [te3152db]> select company from Customers where company like 'A%';
++---------+
+| company |
++---------+
+| Apple   |
++---------+
+1 row in set (0.01 sec)
+
+MariaDB [te3152db]> select quota from Salesresps where quota>50000 and quota<100000;
+Empty set (0.01 sec)
+
+MariaDB [te3152db]> select quota from Salesresps where quota>5000 and quota<10000;
++-------+
+| quota |
++-------+
+|  5055 |
++-------+
+1 row in set (0.00 sec)
+
+MariaDB [te3152db]> select state from Offices where state like '%Maharashtra%' or '%Karnataka%' or '%Gujarat%';
++-------------+
+| state       |
++-------------+
+| Maharashtra |
++-------------+
+1 row in set, 8 warnings (0.00 sec)
+
+MariaDB [te3152db]> select * from Offices order by sales desc;
++----------+--------+-------------+--------+--------+-------+---------+
+| officeid | city   | state       | region | target | sales | phone   |
++----------+--------+-------------+--------+--------+-------+---------+
+|      402 | Nashik | Maharashtra | West   |    400 |  8000 | 2454345 |
+|      401 | P      | M           | W      |    500 |  7000 | 2454306 |
+|      404 | ASD    | Karnataka   | South  |    750 |  1450 | 2784347 |
+|      403 | XYZ    | Kerala      | South  |    700 |  1000 | 2454347 |
++----------+--------+-------------+--------+--------+-------+---------+
+4 rows in set (0.01 sec)
+
+MariaDB [te3152db]> update Customers set company='Godrej' where credit_limit=75000;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+MariaDB [te3152db]> select * from Customers;
++--------+-----------+-------+--------------+
+| custid | company   | repid | credit_limit |
++--------+-----------+-------+--------------+
+|    201 | Apple     |  8001 |         5000 |
+|    202 | Microsoft |  8002 |         6500 |
+|    203 | Godrej    |  8002 |        50000 |
++--------+-----------+-------+--------------+
+
+MariaDB [te3152db]> select * from Salesresps;
++-------+------+----------+-------+-------+
+| repid | name | officeid | quota | sales |
++-------+------+----------+-------+-------+
+|  8001 | ABC  |      401 |  5000 |   100 |
+|  8002 | XYZ  |      402 |  5055 |   450 |
+|  8003 | ASD  |      403 |  NULL |   300 |
++-------+------+----------+-------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [te3152db]> delete from Salesresps where quota is NULL;
+Query OK, 1 row affected (0.02 sec)
+
+MariaDB [te3152db]> select * from Salesresps;
++-------+------+----------+-------+-------+
+| repid | name | officeid | quota | sales |
++-------+------+----------+-------+-------+
+|  8001 | ABC  |      401 |  5000 |   100 |
+|  8002 | XYZ  |      402 |  5055 |   450 |
++-------+------+----------+-------+-------+
+2 rows in set (0.00 sec)
+
+MariaDB [te3152db]> 
+

@@ -1,0 +1,2 @@
+mysql> select Customers.custid,avg(Salesreps.sales) from Customers inner join Salesreps on Salesreps.repid=Customers.repid group by custid;
+select Salesreps.repid,Salesreps.name,Offices.phone from Salesreps inner join Offices on Salesreps.officeid=Offices.officeid
